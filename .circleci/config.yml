@@ -13,7 +13,7 @@ jobs:
       - run: apt update -qqy && apt install -y ruby
       - run: |
           ruby setup.rb \
-            --builds
+            --builds \
             --packages \
             --v24support \
             --commit v2.4.0 \
