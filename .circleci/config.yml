@@ -23,21 +23,23 @@ jobs:
 
 workflows:
   version: 2
-  builder:
+
+  build_centos:
     jobs:
-      # CentOS/RHEL
       - build_for_distro:
           name: build-<< matrix.distro >>
           matrix:
             parameters:
               distro: ["centos8", "centos7", "centos6"]
-      # Debian
+  
+  build_debian:
       - build_for_distro:
           name: build-<< matrix.distro >>
           matrix:
             parameters:
               distro: ["buster", "stretch", "jessie"]
-      # Ubuntu
+  
+  build_ubuntu:
       - build_for_distro:
           name: build-<< matrix.distro >>
           matrix:
