@@ -1,0 +1,36 @@
+version: 2.1
+
+jobs:
+  build_for_distro:
+    machine: true
+    parameters:
+      distro:
+        type: string
+    steps:
+      - checkout
+      - run: |
+          ruby setup.rb \
+            --builds
+            --packages \
+            --v24support \
+            --commit v2.4.0 \
+            --copy-pkgs \
+            --dist \
+            --distro << parameters.distro >>
+      - store_artifacts:
+          path: artifacts/
+          destination: rethinkdb-<< parameters.distro >>
+
+workflows:
+  version: 2
+  builder:
+    triggers:
+      - schedule:
+          # Run every monday at midnight
+          cron: 0 0 * * 1
+    jobs:
+      - build_for_distro:
+          name: build-<< matrix.distro >>
+          matrix:
+            parameters:
+              distro: ["bionic", "buster", "centos8", "centos7", "centos6", "stretch", "jessie", "xenial", "trusty", "disco"]
