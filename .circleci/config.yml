@@ -42,4 +42,4 @@ workflows:
           name: build-<< matrix.distro >>
           matrix:
             parameters:
-              distro: ["eoan", "bionic", "xenial", "trusty", "disco"]
+              distro: ["eoan", "bionic", "xenial", "trusty"]
