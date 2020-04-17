@@ -12,6 +12,7 @@ jobs:
       - checkout
       - run: apt update -qqy && apt install -y ruby
       - run: |
+          ls -lah .
           ruby setup.rb \
             --builds \
             --packages \
