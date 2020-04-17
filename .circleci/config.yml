@@ -2,12 +2,16 @@ version: 2.1
 
 jobs:
   build_for_distro:
-    machine: true
+    docker:
+      - image: 'ubuntu:bionic'
     parameters:
       distro:
         type: string
     steps:
+      - setup_remote_docker:
+          docker_layer_caching: true
       - checkout
+      - run: apt update -qqy && apt install -y ruby
       - run: |
           ruby setup.rb \
             --builds
