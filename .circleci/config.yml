@@ -28,6 +28,10 @@ workflows:
       - schedule:
           # Run every monday at midnight
           cron: 0 0 * * 1
+          filters:
+            branches:
+              only:
+                - master
     jobs:
       - build_for_distro:
           name: build-<< matrix.distro >>
