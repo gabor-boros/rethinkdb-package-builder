@@ -25,8 +25,21 @@ workflows:
   version: 2
   builder:
     jobs:
+      # CentOS/RHEL
       - build_for_distro:
           name: build-<< matrix.distro >>
           matrix:
             parameters:
-              distro: ["bionic", "buster", "centos8", "centos7", "centos6", "stretch", "jessie", "xenial", "trusty", "disco"]
+              distro: ["centos8", "centos7", "centos6"]
+      # Debian
+      - build_for_distro:
+          name: build-<< matrix.distro >>
+          matrix:
+            parameters:
+              distro: ["buster", "stretch", "jessie"]
+      # Ubuntu
+      - build_for_distro:
+          name: build-<< matrix.distro >>
+          matrix:
+            parameters:
+              distro: ["eoan", "bionic", "xenial", "trusty", "disco"]
