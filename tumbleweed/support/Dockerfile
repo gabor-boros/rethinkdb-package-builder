@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-tumbleweed-system
+FROM rethinkdb/rdb-tumbleweed-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

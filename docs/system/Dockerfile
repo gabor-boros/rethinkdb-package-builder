@@ -1,6 +1,6 @@
-FROM samrhughes/rdb-docs-docscheckout AS priorcheckout
+FROM rethinkdb/rdb-docs-docscheckout AS priorcheckout
 
-FROM samrhughes/rdb-bionic-system
+FROM rethinkdb/rdb-bionic-system
 
 RUN apt-get update && apt-get dist-upgrade -y
 RUN apt-get update && apt-get install -y \

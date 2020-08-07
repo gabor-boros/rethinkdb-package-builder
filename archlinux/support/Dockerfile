@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-archlinux-system
+FROM rethinkdb/rdb-archlinux-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

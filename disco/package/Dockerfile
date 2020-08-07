@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-disco-checkout:${commit}
+FROM rethinkdb/rdb-disco-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 # We refetch to get any last-minute tags.

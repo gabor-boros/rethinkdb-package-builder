@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-bionic-system
+FROM rethinkdb/rdb-bionic-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

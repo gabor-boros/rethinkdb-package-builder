@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-centos6-checkout:${commit}
+FROM rethinkdb/rdb-centos6-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 

@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-alpine-system
+FROM rethinkdb/rdb-alpine-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

@@ -1,10 +1,9 @@
 ARG support_commit
-FROM samrhughes/rdb-alpine-support:${support_commit}
+FROM rethinkdb/rdb-alpine-support:${support_commit}
 ARG commit
 
 WORKDIR /platform/rethinkdb
 
-RUN git remote add srh https://github.com/srh/rethinkdb.git
 RUN git remote add rethinkdb https://github.com/rethinkdb/rethinkdb.git
 # TODO DISAPPEND
 RUN apk add libexecinfo-dev

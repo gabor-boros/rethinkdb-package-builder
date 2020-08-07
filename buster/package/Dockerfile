@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-buster-checkout:${commit}
+FROM rethinkdb/rdb-buster-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 # We refetch to get any last-minute tags.

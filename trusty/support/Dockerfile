@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-trusty-system
+FROM rethinkdb/rdb-trusty-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

@@ -89,6 +89,7 @@ distros = [
   "bionic",
   "centos8",
   "buster",
+  "focal",
 # past production releases
   "centos7",
   "centos6",
@@ -116,26 +117,26 @@ end
 
 # First build the base image
 Dir.chdir("rdbcheckout") {
-  system "docker build -t samrhughes/rdbcheckout ." or raise "build rdbcheckout fail"
+  system "docker build -t rethinkdb/rdbcheckout ." or raise "build rdbcheckout fail"
 }
 
 # Then do system builds
 distros.each { |distro|
   Dir.chdir("#{distro}/system") {
-    system "docker build -t samrhughes/rdb-#{distro}-system ." or raise "build rdb-#{distro}-system fail"
+    system "docker build -t rethinkdb/rdb-#{distro}-system ." or raise "build rdb-#{distro}-system fail"
   }
 }
 
 if options[:docs]
   Dir.chdir("docs/docscheckout") {
-    system "docker build -t samrhughes/rdb-docs-docscheckout ." or raise "build rdb-docs-docscheckout fail"
+    system "docker build -t rethinkdb/rdb-docs-docscheckout ." or raise "build rdb-docs-docscheckout fail"
   }
   Dir.chdir("docs/system") {
-    system "docker build -t samrhughes/rdb-docs-system ." or raise "build rdb-docs-system fail"
+    system "docker build -t rethinkdb/rdb-docs-system ." or raise "build rdb-docs-system fail"
   }
   docs_commit = "e4be287c2"
   Dir.chdir("docs/build") {
-    system "docker build -t samrhughes/rdb-docs-build:#{docs_commit} --build-arg commit=${docs_commit} ." or raise "build rdb-docs-build fail"
+    system "docker build -t rethinkdb/rdb-docs-build:#{docs_commit} --build-arg commit=${docs_commit} ." or raise "build rdb-docs-build fail"
   }
 end
 
@@ -143,14 +144,14 @@ if options[:support]
   # Then do support builds
   distros.each { |distro|
     Dir.chdir("#{distro}/support") {
-      system "docker build -t samrhughes/rdb-#{distro}-support:#{support_commit} #{support_args} ." or raise "build rdb-#{distro}-support fail"
+      system "docker build -t rethinkdb/rdb-#{distro}-support:#{support_commit} #{support_args} ." or raise "build rdb-#{distro}-support fail"
     }
   }
 
   # Then do checkouts
   distros.each { |distro|
     Dir.chdir("#{distro}/checkout") {
-      system "docker build -t samrhughes/rdb-#{distro}-checkout:#{commit} #{checkout_args} ." or raise "build rdb-#{distro}-checkout fail"
+      system "docker build -t rethinkdb/rdb-#{distro}-checkout:#{commit} #{checkout_args} ." or raise "build rdb-#{distro}-checkout fail"
     }
   }
 
@@ -159,11 +160,11 @@ if options[:support]
     distros.each { |distro|
       if distro == "centos6"
         Dir.chdir("#{distro}/build") {
-          system "docker build -t samrhughes/rdb-#{distro}-build:#{commit} #{build_args} ." or raise "build rdb-#{distro}-build fail"
+          system "docker build -t rethinkdb/rdb-#{distro}-build:#{commit} #{build_args} ." or raise "build rdb-#{distro}-build fail"
         }
       else
         Dir.chdir("build") {
-          system "docker build -t samrhughes/rdb-#{distro}-build:#{commit} #{build_args} --build-arg distro=#{distro} ." or raise "build rdb-#{distro}-build fail"
+          system "docker build -t rethinkdb/rdb-#{distro}-build:#{commit} #{build_args} --build-arg distro=#{distro} ." or raise "build rdb-#{distro}-build fail"
         }
       end
     }
@@ -172,12 +173,12 @@ if options[:support]
   if options[:dist]
     Dir.chdir("dist") {
       # We only need one dist file, it doesn't depend on OS.  So we pick a recent LTS ubuntu.
-      system "docker build -t samrhughes/rdb-bionic-dist:#{commit} #{build_args} ." or raise "build rdb-bionic-dist fail"
+      system "docker build -t rethinkdb/rdb-bionic-dist:#{commit} #{build_args} ." or raise "build rdb-bionic-dist fail"
     }
 
     puts "Copying dist file into one pkgs directory..."
     FileUtils.mkdir_p("artifacts/pkgs")
-    cmd = "docker run --rm -v #{basedir}/artifacts:/artifacts samrhughes/rdb-bionic-dist:#{commit} bash -c \"cp \\$(find /platform/rethinkdb/build/packages -name '*.tgz') /artifacts/pkgs\""
+    cmd = "docker run --rm -v #{basedir}/artifacts:/artifacts rethinkdb/rdb-bionic-dist:#{commit} bash -c \"cp \\$(find /platform/rethinkdb/build/packages -name '*.tgz') /artifacts/pkgs\""
     puts "Executing #{cmd}"
     system cmd or raise "copy-dist fail"
     puts "Done copying dist."
@@ -187,7 +188,7 @@ if options[:support]
     # And build packages, if we want that.
     distros.each { |distro|
       Dir.chdir("#{distro}/package") {
-        system "docker build -t samrhughes/rdb-#{distro}-package:#{commit} #{package_args} ." or raise "build rdb-#{distro}-package fail"
+        system "docker build -t rethinkdb/rdb-#{distro}-package:#{commit} #{package_args} ." or raise "build rdb-#{distro}-package fail"
       }
     }
 
@@ -198,7 +199,7 @@ if options[:support]
         puts "Copying dir for distro #{distro}..."
         FileUtils.mkdir_p("artifacts/#{distro}")
 
-        system "docker run --rm -v #{basedir}/artifacts:/artifacts samrhughes/rdb-#{distro}-package:#{commit} cp -R /platform/rethinkdb/build/packages /artifacts/#{distro}" or raise "copy-dirs #{distro}-package fail"
+        system "docker run --rm -v #{basedir}/artifacts:/artifacts rethinkdb/rdb-#{distro}-package:#{commit} cp -R /platform/rethinkdb/build/packages /artifacts/#{distro}" or raise "copy-dirs #{distro}-package fail"
       }
       puts "Done copying dirs."
     elsif options[:copy] == :pkgs
@@ -207,7 +208,7 @@ if options[:support]
         FileUtils.mkdir_p("artifacts/pkgs")
         FileUtils.mkdir("artifacts/pkg_stage")
 
-        cmd = "docker run --rm -v #{basedir}/artifacts:/artifacts samrhughes/rdb-#{distro}-package:#{commit} bash -c \"cp \\$(find /platform/rethinkdb/build/packages -name '*.deb' -or -name '*.rpm') /artifacts/pkg_stage\""
+        cmd = "docker run --rm -v #{basedir}/artifacts:/artifacts rethinkdb/rdb-#{distro}-package:#{commit} bash -c \"cp \\$(find /platform/rethinkdb/build/packages -name '*.deb' -or -name '*.rpm') /artifacts/pkg_stage\""
         puts "Executing #{cmd}"
         system cmd or raise "copy-pkgs #{distro}-package fail"
         Dir.glob("artifacts/pkg_stage/*").each { |ent|

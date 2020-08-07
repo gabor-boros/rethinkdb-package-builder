@@ -1,5 +1,5 @@
 ARG support_commit
-FROM rethinkdb/rdb-bionic-support:${support_commit}
+FROM rethinkdb/rdb-focal-support:${support_commit}
 ARG commit
 
 WORKDIR /platform/rethinkdb

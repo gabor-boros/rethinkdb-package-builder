@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-docs-system
+FROM rethinkdb/rdb-docs-system
 ARG commit
 
 WORKDIR /platform/docs

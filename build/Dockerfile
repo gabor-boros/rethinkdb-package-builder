@@ -1,6 +1,6 @@
 ARG distro
 ARG commit
-FROM samrhughes/rdb-${distro}-checkout:${commit}
+FROM rethinkdb/rdb-${distro}-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 

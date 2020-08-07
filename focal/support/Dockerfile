@@ -1,4 +1,4 @@
-FROM rethinkdb/rdb-disco-system
+FROM rethinkdb/rdb-focal-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

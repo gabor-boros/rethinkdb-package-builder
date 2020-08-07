@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-xenial-checkout:${commit}
+FROM rethinkdb/rdb-xenial-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 # We refetch to get any last-minute tags.

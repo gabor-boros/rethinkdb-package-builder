@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-jessie-checkout:${commit}
+FROM rethinkdb/rdb-jessie-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 # We refetch to get any last-minute tags.

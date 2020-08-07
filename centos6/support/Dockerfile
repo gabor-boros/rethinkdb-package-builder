@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-centos6-system
+FROM rethinkdb/rdb-centos6-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

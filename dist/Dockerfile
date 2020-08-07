@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-bionic-checkout:${commit}
+FROM rethinkdb/rdb-bionic-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 

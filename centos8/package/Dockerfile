@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-centos8-checkout:${commit}
+FROM rethinkdb/rdb-centos8-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 # We refetch to get any last-minute tags.

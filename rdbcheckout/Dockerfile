@@ -5,7 +5,7 @@ WORKDIR /rdb
 RUN apt-get update && apt-get install -y \
     git make clang wget
 
-RUN git clone https://github.com/srh/rethinkdb
+RUN git clone https://github.com/rethinkdb/rethinkdb
 WORKDIR /rdb/rethinkdb
 
 # This is also the v24_base_commit of setup.rb

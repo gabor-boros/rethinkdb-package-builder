@@ -1,4 +1,4 @@
-FROM samrhughes/rdbcheckout AS priorcheckout
+FROM rethinkdb/rdbcheckout AS priorcheckout
 
 FROM centos:centos6
 

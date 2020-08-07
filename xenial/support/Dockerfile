@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-xenial-system
+FROM rethinkdb/rdb-xenial-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-eoan-checkout:${commit}
+FROM rethinkdb/rdb-eoan-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 # We refetch to get any last-minute tags.

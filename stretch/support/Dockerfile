@@ -1,4 +1,4 @@
-FROM samrhughes/rdb-stretch-system
+FROM rethinkdb/rdb-stretch-system
 ARG commit
 
 WORKDIR /platform/rethinkdb

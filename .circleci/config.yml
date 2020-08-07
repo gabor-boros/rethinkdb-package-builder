@@ -12,8 +12,28 @@ jobs:
       - checkout
       - run: apt update -qqy && apt install -y ruby
       - run: |
-          ls -lah .
+          ruby setup.rb \
+            --builds \
+            --packages \
+            --v24support \
+            --commit v2.4.0 \
+            --copy-pkgs \
+            --distro << parameters.distro >>
+      - store_artifacts:
+          path: artifacts/
+          destination: rethinkdb-<< parameters.distro >>
 
+  build_dist:
+    docker:
+      - image: 'ubuntu:bionic'
+    parameters:
+      distro:
+        type: string
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: apt update -qqy && apt install -y ruby
+      - run: |
           ruby setup.rb \
             --builds \
             --packages \
@@ -21,10 +41,10 @@ jobs:
             --commit v2.4.0 \
             --copy-pkgs \
             --dist \
-            --distro << parameters.distro >>
+            --distro bionic
       - store_artifacts:
           path: artifacts/
-          destination: rethinkdb-<< parameters.distro >>
+          destination: rethinkdb-dist
 
 workflows:
   version: 2
@@ -44,4 +64,4 @@ workflows:
           name: build-<< matrix.distro >>
           matrix:
             parameters:
-              distro: ["eoan", "bionic", "xenial", "trusty"]
+              distro: ["focal", "eoan", "bionic", "xenial", "trusty"]

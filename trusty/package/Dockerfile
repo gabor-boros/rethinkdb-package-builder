@@ -1,5 +1,5 @@
 ARG commit
-FROM samrhughes/rdb-trusty-checkout:${commit}
+FROM rethinkdb/rdb-trusty-checkout:${commit}
 
 WORKDIR /platform/rethinkdb
 # We refetch to get any last-minute tags.
